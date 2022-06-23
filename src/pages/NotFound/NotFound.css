@@ -1,6 +1,6 @@
  
 
-.wrapper{
+.wrapper-notfound{
     background-image: url('../../assets/bg.jpg');
     background-repeat: no-repeat;
     width: 100vw;
@@ -13,19 +13,21 @@
 h4{
     direction: rtl;
 }
-.banner{
+.banner-notfound{
+    /* background-image: url('../../assets/found.webp'); */
     width: 100%;
     height: 100%;
+    background-repeat: none;
 }
 Input{
     height: auto !important;
 }
-.forget{
+.forget-notfound{
    display: flex;
    justify-content: space-between;
    align-items: baseline;
 }
-.forget-password{
+.forget-password-notfound{
     color: rgb(243, 153, 18);
     text-decoration: underline;
     font-size:13px ;
@@ -33,7 +35,7 @@ Input{
 label{
     font-size: 10px;
 }
-.box{
+.box-notfound{
     box-shadow: -1px 0px 13px 5px #c1aeae;
     border-radius: 9px;
     border:2px 4px #000000;
@@ -47,19 +49,19 @@ label{
 .feild-user Input::placeholder{
     font-size: 14px;
 }
-.login-button{
+.login-button-notfound{
     background:darkOrange;
     color:white;
     font-size:11px;
     font-weight:bold;
-    width:74px;
+    width:139px;
     height: 30px;
     padding:3px 0px;
     border-radius:18px;
     text-shadow:none;
     
 }
-.mainbody{
+.mainbody-notfound{
     display: inline;
 }
 input{
@@ -71,12 +73,12 @@ input{
     border-radius: 9px;
 }
 
-.form{
+.form-notfound{
     justify-content: center;
     align-self: center;
     padding: 1rem;
 }
-.banner-container{
+.banner-container-notfound{
     width: 250px;
     height: 250px;
     align-self: center;
@@ -175,3 +177,4 @@ input{
   
    
   
+

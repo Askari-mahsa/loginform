@@ -1,0 +1,26 @@
+.nav-header-dashboard{
+    width: 100%;
+    height:25%;
+    background-color: rgb(80, 18, 125);
+    display: flex;
+  }.logo{
+    content: url("/src/assets/1.png");
+    width: 50px;
+    cursor: none;
+}.logo:not(:hover){
+    cursor: none;
+}
+.bell{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+}
+.dashboard-icon{
+    display: flex;
+    align-items: center;
+}
+i,h6{
+    color: aliceblue;
+    font-size: 25px;
+}

@@ -1,12 +1,10 @@
 import React from "react";
 import { Alert } from 'reactstrap';
 
-
-
 export const Successalert= () =>{
 
     return (
-        <Alert style={{position:"absolute",top:"20px",width:"300px",right:"37%"}} fade={false} color="success">
+        <Alert style={{position:"absolute",top:"20px",width:"300px",right:"37%", direction:"rtl"}} fade={false} color="success">
         فیلد مورد نظر شما با موفقیت حذف شد.
       </Alert>
     )

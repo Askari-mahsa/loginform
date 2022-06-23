@@ -6,19 +6,19 @@ import { useNavigate } from "react-router";
 import { Successalert } from '../../components/Alert/Alert';
 import { callApi } from '../../services/callApi';
 import { profile_data } from '../../services/callprofile';
+import Header from '../../components/Header/Header';
 
 const Dashboard = () => { 
-
+    const [admin,setAdmin]=useState(true);
+    const [u,setU]=useState();
     const deferredValue = useDeferredValue();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [users, setUsers] = useState([]);
     console.log("response", users.map((res)=>{
         return typeof res.username
-        
     }))
     const [deleteDialogSuccess,setDeleteDialogSuccess]=useState(false)
-    // const [dialog,setDialog]=useState(false)
     const [foundUsers, setFoundUsers] = useState(users);
     console.log("kkkkkk",foundUsers)
     const [collapse,setCollapse]=useState(false);
@@ -28,6 +28,10 @@ const Dashboard = () => {
     console.log("USERS",users)
     const navigate = useNavigate() 
     var result = users.length;
+
+    function notfound(){
+        navigate('/NotFound')
+    }
     function search(){
         setIsLoading(true)
             try{
@@ -40,33 +44,40 @@ const Dashboard = () => {
                 setErrorMessage("سرور قادر به پاسخگویی نیست.");
                 setIsLoading(false);
             }
-            console.log("test",result);
+            
     }
-    // function showProfile(){
-
-    // }
-    const Delete=(e)=>{
-        
-        try{
-
-            setUsers(users.filter(item => item.id !== e));
-            setDeleteDialogSuccess(true)
-        }catch(error){
-            console.log("error in delete row",error)
-            setDeleteDialogSuccess(false)
+    const Delete=(e,type)=>{
+        if(type === 'member'){
+            try{
+                setUsers(users.filter(item => item.id !== e));
+                setDeleteDialogSuccess(true)
+            }catch(error){
+                console.log("error in delete row",error)
+                setDeleteDialogSuccess(false)
+            }
         }
+        else{
+            try{
+                setU(u.filter(item => item.id !== e));
+                setDeleteDialogSuccess(true)
+            }catch(error){
+                console.log("error in delete row",error)
+                setDeleteDialogSuccess(false)
+            }
+           
+        }
+       
     }
     const memberprofile=(id)=>{
         profile_data.map((items,index)=>{
             if(items.id==id)
-            {   console.log("gitlogin")
+            {   
                 navigate("/Dashboard/id",{
                     state:{id}
                 })
             }
             else{
                console.log("else git login")
-                // evry instruction can be used
             }
         }
            
@@ -86,83 +97,45 @@ const Dashboard = () => {
     const filter = (e) => {
         const keywordtarget = e.target.value;
         setGlobalText(e.target.value)
-    //     console.log("ggggg",text)
+
         let userClone=users.username
-
-
         const results =users&& users.filter((target)=>{
             return  target.username.toString().includes(keywordtarget)
         })
-
-        // console.log("llllllll",results)
-        
         setFoundUsers(results)
-
         setText(keywordtarget)
 
-        
-    
-        // if (text !== '') {
-        //   let results = userClone&&userClone.filter((user) => {
-        //       console.log("ggggg",user)
-        //       return user.username.include()
-        
-            // return user.name.toLowerCase().startsWith(text.toLowerCase());
-           
-        //   });
-        //   console.log("resulttt",results)
-        //   setFoundUsers(results);
-        // } else {
-        //   setFoundUsers(users);
-        // }
-        // setText(text);
       };
         return (
         <>
-                <div className='nav-header-dashboard'> 
-                    <Nav
-                    style={{display:"flex",width:"100%",justifyContent:"space-between",targetgnItems:"center"}}>
-                    <NavItem style={{width:"100%",height:"100%"}}>
-                            <div  style={{height:"100%"}} className='dashboard-icon'>
-                                <i className="icon-bell-alt"></i>
-                            </div>
-                           
-                    </NavItem>
-                    <NavItem className='dashboard_nav-link' style={{width:"100%",height:"100%"}}>
-                            <div  style={{height:"100%"}} className='bell'>
-                               <h6>Tornador</h6><img alt="tornador" className='logo'></img>
-                            </div>
-                      </NavItem>
-                      
-                    </Nav>
-                    
-                </div>
+           <Header/>
+               
                <div className='dashboard_nav-container'>
                     <div className='nav-side-dashboard'>
                             <Nav vertical>
                                 <NavItem>
-                                    <NavLink id="N">پروفایل</NavLink>
+                                    <NavLink id="N" onClick={notfound}><i class="icon-user"></i>پروفایل</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" >کاربران</NavLink>
+                                   <NavLink id="N" onClick={notfound}><i class="icon-group"></i>کاربران</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" >مدیریت پنل</NavLink>
+                                    <NavLink id="N" onClick={notfound}><i class="icon-cogs"></i>مدیریت پنل</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" disabled >پروژه ها</NavLink>
+                                    <NavLink id="N" onClick={notfound}><i class="icon-laptop"></i>پروژه ها</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" >وظایف</NavLink>
+                                    <NavLink id="N"onClick={notfound}><i class="icon-tasks"></i> وظایف </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" >عملیات</NavLink>
+                                    <NavLink id="N" onClick={notfound}><i class="icon-random"></i> عملیات </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" >گروه چت</NavLink>
+                                    <NavLink id="N"onClick={notfound}><i class="icon-quote-right"></i> گروه چت</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink id="N" >گزارش ها</NavLink>
+                                    <NavLink id="N" onClick={notfound} ><i class="icon-file-alt"></i>گزارش ها </NavLink>
                                 </NavItem>
                             </Nav>
                             
@@ -171,8 +144,8 @@ const Dashboard = () => {
                         {deleteDialogSuccess?<Successalert/>:""}
                                 <div className='admin-member-dashboard'>
                                     <ul className="list-inline">
-                                        <li className='active' ><a className='admin-tab' onClick={search} >ادمین</a></li>
-                                        <li ><a className='member-tab' onClick={search}>اعضاء</a></li>
+                                        <li ><a className={`admin-tab ${admin && 'active'}`} onClick={()=>{setAdmin(true);}}>ادمین</a></li>
+                                        <li ><a className={`member-tab ${!admin && 'active'}`} onClick={()=> {search(); setAdmin(false);}}>اعضاء</a></li>
                                     </ul>
                                     <div className='search-add-button'>
                                         <button className='new-one-button'>اضافه کردن به لیست+</button>
@@ -198,16 +171,17 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                                     <div className='total-bar-dashboard'>
-                                        {users.map((items)=>
+                                        {users && users.map((items)=>
                                             <></>)}
                                             <p>جمع کل:{result}نفر </p>
+                                         
                                     </div>
                                     
                                     <div className="error">{errorMessage}</div>
                                 </div>
-                                
-                                    {/* state of  */}
+                                  
                                  <table className="table">
+
                                     <thead>
                                         <tr>
                                         <th >گیت ورودی</th>
@@ -218,17 +192,35 @@ const Dashboard = () => {
                                         <th >شماره کاربری </th>
                                         </tr>
                                     </thead>
-                                    {isLoading? <Loading />: users&&users.map((items,index) =>{
-                                        
-                                        
+                                    {admin && (isLoading? <Loading />: profile_data.map((item,list)=> {
+                                    return (
+                                        <tbody key={list}>
+                                           <tr>
+                                           <td><button className='gitlogin' onClick={()=>memberprofile(item.login)}>ورود</button></td>
+                                           <td>
+                                                <ul className="operation-field">
+                                                   <a><i class="icon-pencil" value="items.id"></i></a> 
+                                                    <a><i class="icon-trash" onClick={()=> Delete(item.id,'admin')}></i></a>
+                                                </ul> 
+                                            </td>
+                                            <td>{item.type}</td>
+                                            <td>{item.url}</td>
+                                            <td>{item.node_id}</td>
+                                            <td>{item.id}</td>   
+                                           
+                                            </tr>
+                                        </tbody>)
+                                                }))
+                                    }
+                                    {!admin  && (isLoading? <Loading />: users&&users.map((items,index) =>{
                                         return (
                                              <tbody key={index}>
                                                 <tr>
-                                                <td><button onClick={()=>memberprofile(items.login)}>ورود</button></td>
+                                                <td><button className='gitlogin' onClick={()=>memberprofile(items.login)}>ورود</button></td>
                                                 <td>
                                                      <ul className="operation-field">
                                                         <a><i class="icon-pencil" value="items.id"></i></a> 
-                                                         <a><i class="icon-trash" onClick={()=>Delete(items.id)}></i></a>
+                                                         <a><i class="icon-trash" onClick={()=>{Delete(items.id, 'member')}}></i></a>
                                                      </ul>
                                                  </td>
                                                  <td>{items.username}</td>
@@ -238,7 +230,7 @@ const Dashboard = () => {
                                                 
                                                  </tr>
                                              </tbody>)
-                                            })}
+                                            }))}
                                         </table>
                                 </div> 
                     </div>
