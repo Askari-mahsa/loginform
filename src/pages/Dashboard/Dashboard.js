@@ -10,7 +10,7 @@ import Header from '../../components/Header/Header';
 
 const Dashboard = () => { 
     const [admin,setAdmin]=useState(true);
-    const [u,setU]=useState();
+    const [datauser,setDatauser]=useState(profile_data);
     const deferredValue = useDeferredValue();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -25,9 +25,10 @@ const Dashboard = () => {
     const [globalText,setGlobalText]=useState("");
     const [text,setText]=useState("");
    
-    console.log("USERS",users)
+    console.log("USERS",datauser)
     const navigate = useNavigate() 
     var result = users.length;
+    let adminCount =datauser.length
 
     function notfound(){
         navigate('/NotFound')
@@ -56,17 +57,13 @@ const Dashboard = () => {
                 setDeleteDialogSuccess(false)
             }
         }
-        else{
-            try{
-                setU(u.filter(item => item.id !== e));
-                setDeleteDialogSuccess(true)
-            }catch(error){
-                console.log("error in delete row",error)
-                setDeleteDialogSuccess(false)
-            }
-           
-        }
-       
+    }
+    const DeleteUser=(e)=>{
+        
+        setDatauser(datauser.filter(item => item.id !== e))
+        console.log("setDate",setDatauser)
+        return datauser;
+        
     }
     const memberprofile=(id)=>{
         profile_data.map((items,index)=>{
@@ -96,16 +93,43 @@ const Dashboard = () => {
 
     const filter = (e) => {
         const keywordtarget = e.target.value;
-        setGlobalText(e.target.value)
+        if (keywordtarget === '') {
+            setFoundUsers(users)
+        }
+        else{
+            let results =users&& users.filter((target)=>{
+                return  target.username.toString().includes(keywordtarget)
+            })
+            setFoundUsers(results)
+            console.log("ggggggggggg",results, keywordtarget)
+        }
 
-        let userClone=users.username
-        const results =users&& users.filter((target)=>{
-            return  target.username.toString().includes(keywordtarget)
-        })
-        setFoundUsers(results)
-        setText(keywordtarget)
+        // if((e.target.value)===""){
+          
+        //     setUsers([])
+        //     console.log("setUserrrrs",foundUsers)
+        // }
+    
+        // setFoundUsers(results)
+        // setText(keywordtarget)
 
       };
+
+    //   useEffect(()=>{
+    //       if(foundUsers===""){
+    //           console.log("ssssss")
+    //       return  setUsers(preState=>{
+    //             return [...preState]
+    //         })
+
+    //       }else{
+    //        return setUsers(preState=>{
+    //             return [...foundUsers]
+    //         })
+
+    //       }
+        
+    //   },[foundUsers])
         return (
         <>
            <Header/>
@@ -162,7 +186,7 @@ const Dashboard = () => {
                                                 <input className='search-input-collapse-dashboard' 
                                                 onChange={filter}
                                                 type="search"
-                                                value={text}
+                                                // value={text}
                                                 placeholder='جستجو کاربران'></input>
                                                 </div>   
                                             </CardBody>
@@ -173,7 +197,7 @@ const Dashboard = () => {
                                     <div className='total-bar-dashboard'>
                                         {users && users.map((items)=>
                                             <></>)}
-                                            <p>جمع کل:{result}نفر </p>
+                                            <p>جمع کل:{admin?adminCount:result}نفر </p>
                                          
                                     </div>
                                     
@@ -192,7 +216,7 @@ const Dashboard = () => {
                                         <th >شماره کاربری </th>
                                         </tr>
                                     </thead>
-                                    {admin && (isLoading? <Loading />: profile_data.map((item,list)=> {
+                                    {admin && (isLoading? <Loading />: datauser.map((item,list)=> {
                                     return (
                                         <tbody key={list}>
                                            <tr>
@@ -200,7 +224,7 @@ const Dashboard = () => {
                                            <td>
                                                 <ul className="operation-field">
                                                    <a><i class="icon-pencil" value="items.id"></i></a> 
-                                                    <a><i class="icon-trash" onClick={()=> Delete(item.id,'admin')}></i></a>
+                                                    <a><i class="icon-trash" onClick={(e)=> DeleteUser(item.id,'admin')}></i></a>
                                                 </ul> 
                                             </td>
                                             <td>{item.type}</td>
@@ -212,7 +236,7 @@ const Dashboard = () => {
                                         </tbody>)
                                                 }))
                                     }
-                                    {!admin  && (isLoading? <Loading />: users&&users.map((items,index) =>{
+                                    {!admin  && (isLoading? <Loading />: users && users.map((items,index) =>{
                                         return (
                                              <tbody key={index}>
                                                 <tr>

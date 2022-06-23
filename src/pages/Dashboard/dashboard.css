@@ -65,6 +65,7 @@ a{
     color: #fff !important;
     cursor: pointer;
     font-size: medium;
+    text-decoration: none !important;
 }
 
 #picture{
