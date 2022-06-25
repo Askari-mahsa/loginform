@@ -20,12 +20,9 @@ const Dashboard = () => {
     }))
     const [deleteDialogSuccess,setDeleteDialogSuccess]=useState(false)
     const [foundUsers, setFoundUsers] = useState(users);
-    console.log("kkkkkk",foundUsers)
     const [collapse,setCollapse]=useState(false);
     const [globalText,setGlobalText]=useState("");
     const [text,setText]=useState("");
-   
-    console.log("USERS",datauser)
     const navigate = useNavigate() 
     var result = users.length;
     let adminCount =datauser.length
@@ -91,45 +88,26 @@ const Dashboard = () => {
         return () => clearTimeout(timer);
       }, [deleteDialogSuccess]);
 
-    const filter = (e) => {
-        const keywordtarget = e.target.value;
-        if (keywordtarget === '') {
-            setFoundUsers(users)
+    const searchUser = () => {
+        console.log("trext",text)
+        console.log("settext",setText)
+        if (text !== '') {
+            
+            setUsers(users.filter((items)=>items.username === text))
+            if(setText === ''){
+                search();
+                setUsers(users);
+            }
+            
         }
         else{
-            let results =users&& users.filter((target)=>{
-                return  target.username.toString().includes(keywordtarget)
-            })
-            setFoundUsers(results)
-            console.log("ggggggggggg",results, keywordtarget)
-        }
-
-        // if((e.target.value)===""){
+            search();
+            setUsers(users);
+            }
           
-        //     setUsers([])
-        //     console.log("setUserrrrs",foundUsers)
-        // }
+        };
+        useEffect(()=>{search();},[]);
     
-        // setFoundUsers(results)
-        // setText(keywordtarget)
-
-      };
-
-    //   useEffect(()=>{
-    //       if(foundUsers===""){
-    //           console.log("ssssss")
-    //       return  setUsers(preState=>{
-    //             return [...preState]
-    //         })
-
-    //       }else{
-    //        return setUsers(preState=>{
-    //             return [...foundUsers]
-    //         })
-
-    //       }
-        
-    //   },[foundUsers])
         return (
         <>
            <Header/>
@@ -183,11 +161,14 @@ const Dashboard = () => {
                                         <Card>
                                             <CardBody>
                                                 <div className="submitbutton">
+                                                
                                                 <input className='search-input-collapse-dashboard' 
-                                                onChange={filter}
-                                                type="search"
-                                                // value={text}
-                                                placeholder='جستجو کاربران'></input>
+                                                value={text}
+                                                onChange={(e) => setText(e.target.value)}
+                                                type="text"
+                                                placeholder="جستجوی نام کاربری">
+                                                </input>
+                                                <button className="collapse-search-button"type="submit"onClick={searchUser}><i class="icon-search"></i></button>
                                                 </div>   
                                             </CardBody>
                                         </Card>
@@ -236,7 +217,7 @@ const Dashboard = () => {
                                         </tbody>)
                                                 }))
                                     }
-                                    {!admin  && (isLoading? <Loading />: users && users.map((items,index) =>{
+                                    {!admin  && (isLoading? <Loading />: users&&users.map((items,index) =>{
                                         return (
                                              <tbody key={index}>
                                                 <tr>
@@ -258,22 +239,8 @@ const Dashboard = () => {
                                         </table>
                                 </div> 
                     </div>
-                             {/* <div className="user-list">
-                                {foundUsers && foundUsers.length > 0 ? (
-                                foundUsers.map((user) => (
-                                    <li key={user.id} className="user">
-                                    <span className="user-id">{user.id}</span>
-                                    <span className="user-name">{user.name}</span>
-                                    <span className="user-age">{user.address} year old</span>
-                                    </li>
-                                ))
-                                ) : (
-                                <h1>No results found!</h1>
-                                )}
-                            </div>  */}
-    
         </>
     );
-};
+                                        };
 
 export default Dashboard;

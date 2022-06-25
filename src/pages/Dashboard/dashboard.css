@@ -71,7 +71,12 @@ a{
 #picture{
     width: 12% !important;
 }
-
+.search-input-collapse-dashboard::placeholder {
+    color: rgb(80, 18, 125);
+    text-shadow:1px 3px 23px 5px rgb(249, 247, 250);
+    
+  }
+  
 
 .admin-tab,.member-tab:hover:active{
     font-weight: bold;
@@ -176,6 +181,23 @@ p{
     justify-content: end;
     width: 100%;
 }
+.collapse-search-button{
+    border-radius: 50%;
+    justify-content: left;
+    width: 15%;
+    text-align: right;
+    height: 36px !important;
+    border-color: rgba(82, 78, 78, 0.151);
+    margin-top: 5px;
+    background-color: #cc9df69c !important;
+    border-radius: 18px !important;
+    align-self: start;
+}
+.collapse-search-button:hover{
+    background-color: #330b4f;
+
+}
+
 .dashboard-icon{
     display: flex;
     align-items: center;

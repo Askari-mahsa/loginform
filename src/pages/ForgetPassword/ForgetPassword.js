@@ -10,6 +10,9 @@ const loginChange=(e)=>{
         
         setUsername(e.target.value)
             setNotification(false);
+}
+function loginpage(){
+        navigate('/')
 }  
 const handleSubmitButton = ()=>{ 
     Userfront.sendResetLink("username");
@@ -38,11 +41,15 @@ const handleSubmitButton = ()=>{
                                     </div>
                           
                             <div style={{textAlign:"right",marginTop:"9px"}} className='button-form'>
+                            <Button style={{marginRight:"4px"}} className="back-button "onClick={loginpage}>بازگشت </Button>
                                 <Button className="login-button "onClick={handleSubmitButton}>ارسال</Button>
                                 {notification&&<div>
                                     <span className='closebtn'onChange={(e)=>loginChange(e)} style={{color:"red",fontSize:"12px"}}></span>
                                   ایمیل برای شما ارسال شد.
                                 </div>}
+                                <div style={{textAlign:"right",marginTop:"9px"}} className='button-form'>
+                                </div>
+                                  
                                 
                             </div>
                             
