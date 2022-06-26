@@ -11,7 +11,7 @@ import Header from '../../components/Header/Header';
 const Dashboard = () => { 
     const [admin,setAdmin]=useState(true);
     const [datauser,setDatauser]=useState(profile_data);
-    const deferredValue = useDeferredValue();
+  
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [users, setUsers] = useState([]);
