@@ -7,11 +7,12 @@ import { Successalert } from '../../components/Alert/Alert';
 import { callApi } from '../../services/callApi';
 import { profile_data } from '../../services/callprofile';
 import Header from '../../components/Header/Header';
+import ReactDOM from 'react-dom';
+import ReactPaginate from 'react-paginate';
 
 const Dashboard = () => { 
     const [admin,setAdmin]=useState(true);
     const [datauser,setDatauser]=useState(profile_data);
-  
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [users, setUsers] = useState([]);
@@ -178,7 +179,7 @@ const Dashboard = () => {
                                     <div className='total-bar-dashboard'>
                                         {users && users.map((items)=>
                                             <></>)}
-                                            <p>جمع کل:{admin?adminCount:result}نفر </p>
+                                            <p className='sumtotal'>جمع کل:{admin?adminCount:result}نفر </p>
                                          
                                     </div>
                                     
@@ -189,12 +190,12 @@ const Dashboard = () => {
 
                                     <thead>
                                         <tr>
-                                        <th >گیت ورودی</th>
-                                        <th >عملیات</th>
-                                        <th >نام کاربری</th>
-                                        <th >ایمیل</th>
-                                        <th >تلفن</th>
-                                        <th >شماره کاربری </th>
+                                        <th id='title'>گیت ورودی</th>
+                                        <th id='title'>عملیات</th>
+                                        <th id='title'>نام کاربری</th>
+                                        <th id='title'>ایمیل</th>
+                                        <th id='title'>تلفن</th>
+                                        <th id='title'>شماره کاربری </th>
                                         </tr>
                                     </thead>
                                     {admin && (isLoading? <Loading />: datauser.map((item,list)=> {

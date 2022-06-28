@@ -1,0 +1,21 @@
+@font-face {
+    font-family: Vazir;
+    font-style: normal;
+    font-weight: normal;
+    src: url('./Vazir.eot');
+    src: url('./Vazir.eot?#iefix') format('embedded-opentype'), 
+    url('./Vazir.woff2') format('woff2'), 
+    url('./Vazir.woff') format('woff'), 
+    url('./Vazir.ttf') format('truetype');
+   }
+   @font-face {
+    font-family: Vazir;
+    font-style: normal;
+    font-weight: bold;
+    src: url('./Vazir-Bold.eot');
+    src: url('./Vazir-Bold.eot?#iefix') format('embedded-opentype'), 
+    url('./Vazir-Bold.woff2') format('woff2'), 
+    url('./Vazir-Bold.woff') format('woff'), 
+    url('./Vazir-Bold.ttf') format('truetype');
+   }
+    

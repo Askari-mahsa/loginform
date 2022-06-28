@@ -1,4 +1,24 @@
-
+@font-face {
+    font-family: Vazir;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../../font/Vazir.eot');
+    src: url('../../font/Vazir.eot?#iefix') format('embedded-opentype'), 
+    url('../../font/Vazir.woff2') format('woff2'), 
+    url('../../font/Vazir.woff') format('woff'), 
+    url('../../font/Vazir.ttf') format('truetype');
+   }
+   @font-face {
+    font-family: Vazir;
+    font-style: normal;
+    font-weight: bold;
+    src: url('../../font/Vazir-Bold.eot');
+    src: url('../../font/Vazir-Bold.eot?#iefix') format('embedded-opentype'), 
+    url('../../font/Vazir-Bold.woff2') format('woff2'), 
+    url('../../font/Vazir-Bold.woff') format('woff'), 
+    url('../../font/Vazir-Bold.ttf') format('truetype');
+   }
+    
 .icon-btc{
     display: flex;
 }
@@ -19,6 +39,8 @@
     border-radius: 18px;
     padding: 0px 15px;
     color: aliceblue;
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal; 
  }
 .new-one-button:hover{
     box-shadow:0px 22px 7px rgba(76,10,86,0.47);
@@ -36,6 +58,8 @@ Nav{
 #N{
     padding: 13px 38px;
     color: aliceblue;
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
 }
 #N:hover{
     background-color:rgb(127, 30, 196);
@@ -74,12 +98,16 @@ a{
 .search-input-collapse-dashboard::placeholder {
     color: rgb(80, 18, 125);
     text-shadow:1px 3px 23px 5px rgb(249, 247, 250);
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
     
   }
   
 
 .admin-tab,.member-tab:hover:active{
     font-weight: bold;
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
 }
 
 .nav-link:hover {
@@ -89,6 +117,8 @@ a{
     width:100%;
     display:flex;
     flex-direction: row;
+    font-family: 'Vazir', Arial, sans-serif;
+font-weight:normal;
 }
 .fa-trash,.fa-pencil{
     width: 100px;
@@ -155,13 +185,15 @@ p{
 .gitlogin{
     background:#50127d86;
     color:white;
-    font-size:11px;
+    font-size:13px;
     font-weight:bold;
     width:74px;
     height: 30px;
     padding:3px 0px;
     border-radius:18px;
     text-shadow:none;
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
 }
 .nav-header-dashboard{
     width: 100%;
@@ -205,6 +237,8 @@ p{
 i,h6{
     color: aliceblue;
     font-size: 25px;
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
 }
 
 .active {
@@ -222,4 +256,12 @@ i,h6{
     body {
      
     }
+  }
+  .sumtotal{
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
+  }
+  #title{
+    font-family: 'Vazir', Arial, sans-serif;
+    font-weight:normal;
   }
