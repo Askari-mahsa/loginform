@@ -7,8 +7,7 @@ import { Successalert } from '../../components/Alert/Alert';
 import { callApi } from '../../services/callApi';
 import { profile_data } from '../../services/callprofile';
 import Header from '../../components/Header/Header';
-import ReactDOM from 'react-dom';
-import ReactPaginate from 'react-paginate';
+import toPersianDigits from "../../utils/NumberDic"
 
 const Dashboard = () => { 
     const [admin,setAdmin]=useState(true);
@@ -151,10 +150,10 @@ const Dashboard = () => {
                                         <li ><a className={`member-tab ${!admin && 'active'}`} onClick={()=> {search(); setAdmin(false);}}>اعضاء</a></li>
                                     </ul>
                                     <div className='search-add-button'>
-                                        <button className='new-one-button'>اضافه کردن به لیست+</button>
+                                        
                                         <button className='new-one-button' 
-                                        onClick={()=>ToggleCard()}> جستجو<i class="icon-search"></i></button>
-                                     
+                                        onClick={()=>ToggleCard()}> جستجو <i class="icon-search" ></i></button>
+                                        <button className='new-one-button1'>اضافه کردن به لیست + </button>
                                     </div>
                                     <div className='title_dashboard'>
                                     <div className='body-title-dashboard'>
@@ -169,7 +168,7 @@ const Dashboard = () => {
                                                 type="text"
                                                 placeholder="جستجوی نام کاربری">
                                                 </input>
-                                                <button className="collapse-search-button"type="submit"onClick={searchUser}><i class="icon-search"></i></button>
+                                                <button className="collapse-search-button"type="submit"onClick={searchUser}><i class="icon-search" id='button'></i></button>
                                                 </div>   
                                             </CardBody>
                                         </Card>
@@ -212,8 +211,7 @@ const Dashboard = () => {
                                             <td>{item.type}</td>
                                             <td>{item.url}</td>
                                             <td>{item.node_id}</td>
-                                            <td>{item.id}</td>   
-                                           
+                                            <td style={{fontFamily:" 'Vazir', Arial, sans-serif",fontWeight:"normal"}}>{toPersianDigits(item.id)}</td>   
                                             </tr>
                                         </tbody>)
                                                 }))
@@ -232,7 +230,7 @@ const Dashboard = () => {
                                                  <td>{items.username}</td>
                                                  <td>{items.email}</td>
                                                  <td>{items.address.zipcode}</td>
-                                                 <td>{items.id}</td>   
+                                                 <td style={{fontFamily:" 'Vazir', Arial, sans-serif",fontWeight:"normal"}}>{toPersianDigits(items.id)}</td>   
                                                 
                                                  </tr>
                                              </tbody>)

@@ -3,6 +3,7 @@
     height:25%;
     background-color: rgb(80, 18, 125);
     display: flex;
+    padding-bottom: 12px !important;
   }.logo{
     content: url("/src/assets/1.png");
     width: 50px;
@@ -15,6 +16,7 @@
     align-items: center;
     justify-content: end;
     width: 100%;
+    
 }
 .dashboard-icon{
     display: flex;
@@ -23,4 +25,7 @@
 i,h6{
     color: aliceblue;
     font-size: 25px;
+}
+.icon-bell-alt{
+    font-size: 22px;
 }
