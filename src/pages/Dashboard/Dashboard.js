@@ -1,31 +1,31 @@
-import React, {useDeferredValue, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Nav, NavItem, NavLink ,Collapse, CardBody, Card} from 'reactstrap';
 import './dashboard.css'
 import Loading from '../../utils/Loading';
 import { useNavigate } from "react-router";
 import { Successalert } from '../../components/Alert/Alert';
 import { callApi } from '../../services/callApi';
-import { profile_data } from '../../services/callprofile';
+import { callAdminApi } from '../../services/callApi';
 import Header from '../../components/Header/Header';
 import toPersianDigits from "../../utils/NumberDic"
 
 const Dashboard = () => { 
     const [admin,setAdmin]=useState(true);
-    const [datauser,setDatauser]=useState(profile_data);
+   
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
     const [users, setUsers] = useState([]);
-    console.log("response", users.map((res)=>{
-        return typeof res.username
-    }))
+    const [datauser, setDatauser]=useState([]);
+    
     const [deleteDialogSuccess,setDeleteDialogSuccess]=useState(false)
-    const [foundUsers, setFoundUsers] = useState(users);
+    // const [foundUsers, setFoundUsers] = useState(users);
     const [collapse,setCollapse]=useState(false);
-    const [globalText,setGlobalText]=useState("");
+    // const [globalText,setGlobalText]=useState("");
     const [text,setText]=useState("");
     const navigate = useNavigate() 
-    var result = users.length;
-    let adminCount =datauser.length
+    // var result = users.length;
+    // let adminCount =datauser.length
 
     function notfound(){
         navigate('/NotFound')
@@ -34,7 +34,8 @@ const Dashboard = () => {
         setIsLoading(true)
             try{
                 callApi().then(res => {
-                    setUsers(res.data);
+                    console.log('ikehfe',res.data)
+                    setUsers(res.data.items);
                     setIsLoading(false)
                    ;})
 
@@ -42,9 +43,24 @@ const Dashboard = () => {
                 setErrorMessage("سرور قادر به پاسخگویی نیست.");
                 setIsLoading(false);
             }
-            
     }
-    const Delete=(e,type)=>{
+    function adminsearch(){
+        setIsLoading(true)
+        try{
+            callAdminApi().then(res => {
+               
+                setDatauser(res.data.item);
+                setIsLoading(false)
+               ;})
+
+        }catch(errorMessage){
+            setErrorMessage("سرور قادر به پاسخگویی نیست.");
+            setIsLoading(false);
+        }
+            
+
+    }
+       const Delete=(e,type)=>{
         if(type === 'member'){
             try{
                 setUsers(users.filter(item => item.id !== e));
@@ -62,21 +78,23 @@ const Dashboard = () => {
         return datauser;
         
     }
-    const memberprofile=(id)=>{
-        profile_data.map((items,index)=>{
-            if(items.id==id)
-            {   
-                navigate("/Dashboard/id",{
-                    state:{id}
-                })
-            }
-            else{
-               console.log("else git login")
-            }
-        }
+    const memberprofile=()=>{
+        // profile_data.map((items,index)=>{
+        //     if(items.id==id)
+        //     {   
+        //         navigate("/Dashboard/id",{
+        //             state:{id}
+        //         })
+        //     }
+        //     else{
+        //        console.log("else git login")
+        //     }
+        // }
            
-        )
+        // )
+        
     }
+    
     const ToggleCard =(text)=>{
         setCollapse(!collapse);
        
@@ -89,8 +107,7 @@ const Dashboard = () => {
       }, [deleteDialogSuccess]);
 
     const searchUser = () => {
-        console.log("trext",text)
-        console.log("settext",setText)
+  
         if (text !== '') {
             
             setUsers(users.filter((items)=>items.username === text))
@@ -146,7 +163,7 @@ const Dashboard = () => {
                         {deleteDialogSuccess?<Successalert/>:""}
                                 <div className='admin-member-dashboard'>
                                     <ul className="list-inline">
-                                        <li ><a className={`admin-tab ${admin && 'active'}`} onClick={()=>{setAdmin(true);}}>ادمین</a></li>
+                                        <li ><a className={`admin-tab ${admin && 'active'}`} onClick={()=>{adminsearch();setAdmin(true);}}>ادمین</a></li>
                                         <li ><a className={`member-tab ${!admin && 'active'}`} onClick={()=> {search(); setAdmin(false);}}>اعضاء</a></li>
                                     </ul>
                                     <div className='search-add-button'>
@@ -176,10 +193,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                                     <div className='total-bar-dashboard'>
-                                        {users && users.map((items)=>
-                                            <></>)}
-                                            <p className='sumtotal'>جمع کل:{admin?adminCount:result}نفر </p>
-                                         
+                                        {/* {admin ?<>{result}</> :<>{adminCount}</>} */}
                                     </div>
                                     
                                     <div className="error">{errorMessage}</div>
@@ -197,40 +211,42 @@ const Dashboard = () => {
                                         <th id='title'>شماره کاربری </th>
                                         </tr>
                                     </thead>
-                                    {admin && (isLoading? <Loading />: datauser.map((item,list)=> {
+                                    {admin && (isLoading? <Loading />: datauser && datauser.map((items,list)=> {
+                                     
                                     return (
                                         <tbody key={list}>
                                            <tr>
-                                           <td><button className='gitlogin' onClick={()=>memberprofile(item.login)}>ورود</button></td>
+                                           <td><button className='gitlogin' onClick={()=>memberprofile(items.id)}>ورود</button></td>
                                            <td>
                                                 <ul className="operation-field">
                                                    <a><i class="icon-pencil" value="items.id"></i></a> 
-                                                    <a><i class="icon-trash" onClick={(e)=> DeleteUser(item.id,'admin')}></i></a>
+                                                    <a><i class="icon-trash" onClick={(e)=> DeleteUser(items.id,'admin')}></i></a>
                                                 </ul> 
                                             </td>
-                                            <td>{item.type}</td>
-                                            <td>{item.url}</td>
-                                            <td>{item.node_id}</td>
-                                            <td style={{fontFamily:" 'Vazir', Arial, sans-serif",fontWeight:"normal"}}>{toPersianDigits(item.id)}</td>   
+                                            <td>{items.name}</td>
+                                            <td>{items.url}</td>
+                                            <td>{items.cover_url}</td>
+                                            <td style={{fontFamily:" 'Vazir', Arial, sans-serif",fontWeight:"normal"}}>{toPersianDigits(items.id)}</td>   
                                             </tr>
                                         </tbody>)
                                                 }))
                                     }
-                                    {!admin  && (isLoading? <Loading />: users&&users.map((items,index) =>{
+
+                                    {!admin  && (isLoading? <Loading />: users && users.map((item,index) =>{
                                         return (
                                              <tbody key={index}>
                                                 <tr>
-                                                <td><button className='gitlogin' onClick={()=>memberprofile(items.login)}>ورود</button></td>
+                                                <td><button className='gitlogin' onClick={()=>memberprofile(albums.item.id)}>ورود</button></td>
                                                 <td>
                                                      <ul className="operation-field">
                                                         <a><i class="icon-pencil" value="items.id"></i></a> 
-                                                         <a><i class="icon-trash" onClick={()=>{Delete(items.id, 'member')}}></i></a>
+                                                         <a><i class="icon-trash" onClick={()=>{Delete(item.id, 'member')}}></i></a>
                                                      </ul>
                                                  </td>
-                                                 <td>{items.username}</td>
-                                                 <td>{items.email}</td>
-                                                 <td>{items.address.zipcode}</td>
-                                                 <td style={{fontFamily:" 'Vazir', Arial, sans-serif",fontWeight:"normal"}}>{toPersianDigits(items.id)}</td>   
+                                                 <td>{item.name}</td>
+                                                 <td>{item.url}</td>
+                                                 <td>{item.released_at}</td>
+                                                 <td style={{fontFamily:" 'Vazir', Arial, sans-serif",fontWeight:"normal"}}>{toPersianDigits(item.rate)}</td>   
                                                 
                                                  </tr>
                                              </tbody>)

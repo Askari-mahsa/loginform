@@ -2,15 +2,13 @@ import  axios  from "axios";
 
 export const callApi = () =>{
   
-  let baseURL = "https://jsonplaceholder.typicode.com/users";
+  let baseURL = "https://mohsen.samdev.ir/api/albums";
   
- return  axios.get(baseURL)
-
-
+ return  axios.post(baseURL)
 }
 export const callAdminApi = () =>{
   
-  let baseURL = "https://api.github.com/search/users?q=admin";
+  let baseURL = "https://mohsen.samdev.ir/api/musics?lastId=-1";
   
- return  axios.get(baseURL)
+ return  axios.post(baseURL)
 }
