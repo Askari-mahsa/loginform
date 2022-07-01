@@ -34,7 +34,7 @@ const Dashboard = () => {
         setIsLoading(true)
             try{
                 callApi().then(res => {
-                    console.log('ikehfe',res.data)
+                    console.log('ikehfe',typeof res.data)
                     setUsers(res.data.items);
                     setIsLoading(false)
                    ;})
@@ -48,7 +48,7 @@ const Dashboard = () => {
         setIsLoading(true)
         try{
             callAdminApi().then(res => {
-               
+                console.log('hghghg', res.data.music)
                 setDatauser(res.data.item);
                 setIsLoading(false)
                ;})
@@ -233,10 +233,11 @@ const Dashboard = () => {
                                     }
 
                                     {!admin  && (isLoading? <Loading />: users && users.map((item,index) =>{
-                                        return (
+                                    return (
                                              <tbody key={index}>
+                                                 {console.log("firsttttttt")}
                                                 <tr>
-                                                <td><button className='gitlogin' onClick={()=>memberprofile(albums.item.id)}>ورود</button></td>
+                                                <td><button className='gitlogin' onClick={()=>memberprofile(item.id)}>ورود</button></td>
                                                 <td>
                                                      <ul className="operation-field">
                                                         <a><i class="icon-pencil" value="items.id"></i></a> 
