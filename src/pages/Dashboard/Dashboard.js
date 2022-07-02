@@ -7,14 +7,20 @@ import { Successalert } from '../../components/Alert/Alert';
 import { callApi } from '../../services/callApi';
 import { callAdminApi } from '../../services/callApi';
 import Header from '../../components/Header/Header';
-import toPersianDigits from "../../utils/NumberDic"
+import toPersianDigits from "../../utils/NumberDic"; 
+// import Profile from '../Profile/Profile';
+import ReactPaginate from 'react-paginate';
 
 const Dashboard = () => { 
+
     const [admin,setAdmin]=useState(true);
-   
+
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState(0);
+
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-
+    
     const [users, setUsers] = useState([]);
     const [datauser, setDatauser]=useState([]);
     
@@ -26,6 +32,10 @@ const Dashboard = () => {
     const navigate = useNavigate() 
     // var result = users.length;
     // let adminCount =datauser.length
+    
+    const   itemsPerPage=9;
+    // const [currentPage,setCurrentPage]=useState(0);
+    // const[data,setData]=useState([])
 
     function notfound(){
         navigate('/NotFound')
@@ -34,8 +44,8 @@ const Dashboard = () => {
         setIsLoading(true)
             try{
                 callApi().then(res => {
-                    console.log('ikehfe',typeof res.data)
-                    setUsers(res.data.items);
+                    // console.log('ikehfe',typeof res.data) 
+                    setUsers(res.data.albums);
                     setIsLoading(false)
                    ;})
 
@@ -48,8 +58,8 @@ const Dashboard = () => {
         setIsLoading(true)
         try{
             callAdminApi().then(res => {
-                console.log('hghghg', res.data.music)
-                setDatauser(res.data.item);
+                console.log('hghghg', res.data.musics)
+                setDatauser(res.data.musics);
                 setIsLoading(false)
                ;})
 
@@ -79,19 +89,7 @@ const Dashboard = () => {
         
     }
     const memberprofile=()=>{
-        // profile_data.map((items,index)=>{
-        //     if(items.id==id)
-        //     {   
-        //         navigate("/Dashboard/id",{
-        //             state:{id}
-        //         })
-        //     }
-        //     else{
-        //        console.log("else git login")
-        //     }
-        // }
-           
-        // )
+        navigate('/Profile')
         
     }
     
@@ -124,7 +122,31 @@ const Dashboard = () => {
           
         };
         useEffect(()=>{search();},[]);
-    
+
+        const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+        function PaginatedItems({ itemsPerPage }) {
+            const [currentItems, setCurrentItems] = useState(null);
+            
+          
+            useEffect(() => {
+              const endOffset = itemOffset + itemsPerPage;
+            //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+              setCurrentItems(items.slice(itemOffset, endOffset));
+              setPageCount(Math.ceil(items.length / itemsPerPage));
+            }, [itemOffset, itemsPerPage]);
+          
+           
+        }
+      
+        const handlePageClick = (e) => {
+            // console.log("first", selected)
+            const {selected} = e;
+            const newOffset = (selected * itemsPerPage) % items.length;
+            // console.log(
+            //   `User requested page number ${selected}, which is offset ${newOffset}`
+            // );
+            setItemOffset(newOffset);
+          };
         return (
         <>
            <Header/>
@@ -253,8 +275,20 @@ const Dashboard = () => {
                                              </tbody>)
                                             }))}
                                         </table>
-                                </div> 
+                                </div>
+                                {/* <Items currentItems={currentItems} />  */}
+                                <ReactPaginate
+                                   breakLabel="..."
+                                   nextLabel="next >"
+                                   onPageChange={handlePageClick}
+                                   pageRangeDisplayed={5}
+                                   pageCount={pageCount}
+                                   previousLabel="< previous"
+                                   renderOnZeroPageCount={null}
+                                />
+
                     </div>
+
         </>
     );
                                         };
