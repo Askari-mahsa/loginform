@@ -14,28 +14,21 @@ import ReactPaginate from 'react-paginate';
 const Dashboard = () => { 
 
     const [admin,setAdmin]=useState(true);
-
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
-
+    const [currentItems,setCurrentItems ]=useState(null)
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    
     const [users, setUsers] = useState([]);
     const [datauser, setDatauser]=useState([]);
-    
     const [deleteDialogSuccess,setDeleteDialogSuccess]=useState(false)
-    // const [foundUsers, setFoundUsers] = useState(users);
     const [collapse,setCollapse]=useState(false);
-    // const [globalText,setGlobalText]=useState("");
     const [text,setText]=useState("");
     const navigate = useNavigate() 
+    let itemsPerPage = 10
     // var result = users.length;
     // let adminCount =datauser.length
     
-    const   itemsPerPage=9;
-    // const [currentPage,setCurrentPage]=useState(0);
-    // const[data,setData]=useState([])
 
     function notfound(){
         navigate('/NotFound')
@@ -44,7 +37,6 @@ const Dashboard = () => {
         setIsLoading(true)
             try{
                 callApi().then(res => {
-                    // console.log('ikehfe',typeof res.data) 
                     setUsers(res.data.albums);
                     setIsLoading(false)
                    ;})
@@ -124,29 +116,37 @@ const Dashboard = () => {
         useEffect(()=>{search();},[]);
 
         const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-        function PaginatedItems({ itemsPerPage }) {
-            const [currentItems, setCurrentItems] = useState(null);
+        // function PaginatedItems({ itemsPerPage }) {
+        //     const [currentItems, setCurrentItems] = useState(null);
+        useEffect(() => {
+            // Fetch items from another resources.
             
+            const endOffset = itemOffset + itemsPerPage;
+            console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+            setCurrentItems(datauser.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(datauser.length / itemsPerPage));
+          }, [datauser,itemOffset, itemsPerPage]);
+
+          const handlePageClick = (event) => {
+             
           
-            useEffect(() => {
-              const endOffset = itemOffset + itemsPerPage;
-            //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-              setCurrentItems(items.slice(itemOffset, endOffset));
-              setPageCount(Math.ceil(items.length / itemsPerPage));
-            }, [itemOffset, itemsPerPage]);
-          
+            const newOffset = (event.selected * itemsPerPage) % datauser.length;
            
-        }
-      
-        const handlePageClick = (e) => {
-            // console.log("first", selected)
-            const {selected} = e;
-            const newOffset = (selected * itemsPerPage) % items.length;
-            // console.log(
-            //   `User requested page number ${selected}, which is offset ${newOffset}`
-            // );
             setItemOffset(newOffset);
           };
+          
+            // useEffect(() => {
+            //   const endOffset = itemOffset + 10;
+            //   setCurrentItems(datauser.slice(itemOffset, endOffset));
+            //   setPageCount(Math.ceil(datauser.length / 10));
+            // }, [itemOffset]);
+
+            // const handlePageClick =(event)=>
+            // {
+            //     const newOffset =(event.selected*10)% datauser.length;
+            //     setItemOffset(newOffset);
+            // };
+    
         return (
         <>
            <Header/>
@@ -211,16 +211,18 @@ const Dashboard = () => {
                                                 </div>   
                                             </CardBody>
                                         </Card>
-                                        </Collapse>
+                                        onPageChange={handlePageClick}            </Collapse>
                                     </div>
                                 </div>
+                           
                                     <div className='total-bar-dashboard'>
                                         {/* {admin ?<>{result}</> :<>{adminCount}</>} */}
                                     </div>
                                     
                                     <div className="error">{errorMessage}</div>
                                 </div>
-                                  
+
+                                
                                  <table className="table">
 
                                     <thead>
@@ -233,7 +235,7 @@ const Dashboard = () => {
                                         <th id='title'>شماره کاربری </th>
                                         </tr>
                                     </thead>
-                                    {admin && (isLoading? <Loading />: datauser && datauser.map((items,list)=> {
+                                    {admin && (isLoading? <Loading />: currentItems && currentItems.map((items,list)=> {
                                      
                                     return (
                                         <tbody key={list}>
@@ -275,20 +277,54 @@ const Dashboard = () => {
                                              </tbody>)
                                             }))}
                                         </table>
+                                 {admin ? <div className='paginate'onChange={()=>{adminsearch();setAdmin(true);}}>
+                                
+                                <ReactPaginate
+                                    // breakLabel="..."
+                                    // nextLabel={">>"}
+                                    // previousLabel={"<<"}
+                                    // onPageChange={handlePageClick}
+                                    // // pageLabelBuilder={page=>toPersianDigits}
+                                    // pageRangeDisplayed={3}
+                                    // // nextLable={"next>>"}
+                                    
+                                    // pageCount={pageCount}
+                                    
+                                    // containerClassName={"pagination"}
+                                    // previousLinkClassName={"pagination_link"}
+                                    // renderOnZeroPageCount={null}
+                                    // activeClassName="activeClass"
+                                    // nextClassName='page-item'
+                                    // previousClassName='page-item'
+                                    // // pageRangeDisplayed=""
+                                    // pageClassName="page-item"
+                                    // activeLinkClassName="page-link"
+                                    // nextLinkClassName="next-link"
+                                    // breakClassName='page-item'
+                                    breakLabel="..."
+                                    nextLabel={">>"}
+                                    onPageChange={handlePageClick}
+                                    pageLabelBuilder={page => toPersianDigits(page)}
+                                    pageRangeDisplayed={3}
+                                    pageCount={pageCount}
+                                    previousLabel={"<<"}
+                                    renderOnZeroPageCount={null}
+                                    breakClassName="page-item"
+                                    breakLinkClassName="page-link"
+                                    containerClassName="pagination"
+                                    activeClassName="active"
+                                    pageClassName="page-item"
+                                    pageLinkClassName="page-link"
+                                    previousClassName="page-item"
+                                    previousLinkClassName="page-link"
+                                    nextClassName="page-item"
+                                    nextLinkClassName="page-link"
+                                />
+                                    
+                                    </div> :<></>}
                                 </div>
                                 {/* <Items currentItems={currentItems} />  */}
-                                <ReactPaginate
-                                   breakLabel="..."
-                                   nextLabel="next >"
-                                   onPageChange={handlePageClick}
-                                   pageRangeDisplayed={5}
-                                   pageCount={pageCount}
-                                   previousLabel="< previous"
-                                   renderOnZeroPageCount={null}
-                                />
-
                     </div>
-
         </>
     );
                                         };
